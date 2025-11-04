@@ -15,7 +15,7 @@ var arrowpress:FunkinSprite = new FunkinSprite(0, 0, Paths.image("menus/gallery/
 static var curGal:Int = 0;
 
 function create() {
-    vid.load(Assets.getPath(Paths.file('videos/gallerybg.mov')), ['input-repeat=65535']);
+    vid.load(Assets.getPath(Paths.video('gallerybg.mov')), ['input-repeat=65535']);
     vid.play();
 
     var multi:FunkinSprite = new FunkinSprite(0, 0, Paths.image("menus/gallery/multiply")); 
