@@ -53,7 +53,7 @@ public static function setStage(_:String) {
     if (theStage == _) return;
 
     for (a in stage.stageSprites.keys())
-        stage.getSprite(a).visible = StringTools.startsWith(a, _);
+        stage.getSprite(a).visible = stage.getSprite(a).exists = StringTools.startsWith(a, _);
 
     theStage = _;
 }
