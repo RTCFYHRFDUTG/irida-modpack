@@ -70,10 +70,6 @@ function postCreate() {
 function postPostCreate() {
     FlxG.cameras.insert(camVideo, 1, false).bgColor = FlxColor.TRANSPARENT;
 
-    for (a in strumLines.members)
-        for (z in a.characters)
-            toggleChar(z, false);
-
     setIridaBar("shadow");
     setStage("none");
     // camera shit
@@ -102,11 +98,10 @@ function stepHit(_:Int) {
         case 72:
             remove(doorVid);
             camHUD.alpha = 0;
-            toggleChar(strumLines.members[1].characters[0], true);
             strumLines.members[1].characters[0].playAnim("anim");
+            strumLines.members[1].characters[0].alpha = 1;
         case 154:
-            toggleChar(strumLines.members[0].characters[0], true);
-            FlxTween.num(0, 1, (Conductor.stepCrochet / 1000) * 20, {ease: FlxEase.circInOut}, alp -> strumLines.members[0].characters[0].alpha = alp);
+            FlxTween.tween(strumLines.members[0].characters[0], {alpha: 1}, (Conductor.stepCrochet / 1000) * 20);
             FlxTween.num(1.25, 1, (Conductor.stepCrochet / 1000) * 20, {ease: FlxEase.circInOut}, zoom -> camGame.zoom = defaultCamZoom = zoom);
             FlxTween.num(900, -875, (Conductor.stepCrochet / 1000) * 20, {ease: FlxEase.circInOut}, ex -> strumLines.members[2].characters[0].cameraOffset.x = ex);
             FlxTween.num(500, 25, (Conductor.stepCrochet / 1000) * 20, {ease: FlxEase.circInOut}, why -> strumLines.members[2].characters[0].cameraOffset.y = why);
@@ -149,13 +144,8 @@ function stepHit(_:Int) {
                 healthBar.createFilledBar(0xffbf5e2b, 0xffae211b);
                 healthBar.percent = health;
 
-                toggleChar(strumLines.members[0].characters[0], false);
-                toggleChar(strumLines.members[1].characters[0], false);
-
-                toggleChar(strumLines.members[0].characters[1], true);
-                toggleChar(strumLines.members[1].characters[1], true);
-                toggleChar(strumLines.members[2].characters[0], true);
-
+                strumLines.members[0].characters[0].alpha = strumLines.members[1].characters[0].alpha = 0;
+                strumLines.members[0].characters[1].alpha = strumLines.members[1].characters[1].alpha = strumLines.members[2].characters[0].alpha = 1;
                 strumLines.members[2].characters[0].cameraOffset.set(-25, 475);
 
                 strumLines.members[0].characters[0].cameraOffset.set(-825, -875);
@@ -202,10 +192,10 @@ function stepHit(_:Int) {
             vocals.volume = 1;
             FlxTween.tween(iconP3, {alpha: 0, x: 1175, angle: 90}, (Conductor.stepCrochet / 1000) * 8, {ease: FlxEase.circInOut});
             FlxTween.tween(camNotes, {alpha: 0}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.circInOut});
-            FlxTween.tween(camHUD, {alpha: 0, 'scroll.y': -FlxG.height}, (Conductor.stepCro
+            FlxTween.tween(camHUD, {alpha: 0, 'scroll.y': -FlxG.height}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.circInOut});
         case 2656:
-            toggleChar(strumLines.members[2].characters[0], false);  
-            toggleChar(strumLines.members[2].characters[1], true);
+            strumLines.members[2].characters[0].alpha = 0;
+            strumLines.members[2].characters[1].alpha = 1;
             iconP1.setIcon("marvin-shucks-bloody");
             camHUD.stopFade();
             FlxTween.tween(camNotes, {alpha: 1}, (Conductor.stepCrochet / 1000) * 16, {ease: FlxEase.circInOut});
@@ -225,11 +215,8 @@ function stepHit(_:Int) {
                 setStage("chair_");
                 playerGhost.alpha = dadGhost.alpha = 0;
 
-                toggleChar(strumLines.members[0].characters[1], false); 
-                toggleChar(strumLines.members[1].characters[1], false);
-                toggleChar(strumLines.members[2].characters[1], false);
-
-                toggleChar(strumLines.members[1].characters[2], true);
+                strumLines.members[0].characters[1].alpha = strumLines.members[1].characters[1].alpha = strumLines.members[2].characters[1].alpha = 0;
+                strumLines.members[1].characters[2].alpha = 1;
                 strumLines.members[1].characters[2].visible = false;
             });
             FlxTween.tween(camNotes, {alpha: 0}, (Conductor.stepCrochet / 1000) * 8, {ease: FlxEase.circInOut});
@@ -260,8 +247,7 @@ function stepHit(_:Int) {
             stage.getSprite("chair_text").playAnim("ShucksText");
 
             stage.getSprite("chair_introbottom").animation.finishCallback = (name:String) -> {
-                toggleChar(strumLines.members[0].characters[2], true);
-                toggleChar(strumLines.members[0].characters[3], true);
+                strumLines.members[0].characters[2].alpha = strumLines.members[0].characters[3].alpha = 1;
                 stage.getSprite("chair_introbottom").alpha = stage.getSprite("chair_introtop").alpha = 0;
             }
             stage.getSprite("chair_introbottom").playAnim("intro");
@@ -381,12 +367,8 @@ function stepHit(_:Int) {
             setStage("run_");
             defaultCamZoom = camGame.zoom = 1;
             stage.getSprite("run_legsdetg").alpha = 0;
-            toggleChar(strumLines.members[0].characters[2], false);
-            toggleChar(strumLines.members[0].characters[3], false);
-            totoggleChastrumLines.members[1].characters[3], false);
-                
-            toggleChar(strumLines.members[0].characters[4], true);
-            toggleChar(strumLines.members[1].characters[3], true);
+            strumLines.members[0].characters[2].alpha = strumLines.members[0].characters[3].alpha = strumLines.members[1].characters[2].alpha = 0;
+            strumLines.members[1].characters[3].alpha = 1;
         case 4412:
             FlxTween.tween(camNotes, {alpha: 1}, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.circInOut});
             FlxTween.tween(camHUD, {alpha: 1, 'scroll.y': 0}, (Conductor.stepCrochet / 1000) * 4, {ease: FlxEase.circInOut});
@@ -400,8 +382,7 @@ function stepHit(_:Int) {
 
             stage.getSprite("run_bg").animation.finishCallback = (name:String) -> if (name == "intro") stage.getSprite("run_bg").playAnim('loop');
 
-            FlxTween.tween
-                , (Conductor.stepCrochet / 1000) * 8);
+            FlxTween.tween(strumLines.members[0].characters[4], {alpha: 1}, (Conductor.stepCrochet / 1000) * 8);
             // intro anim use shucks jx to test
             strumLines.members[0].characters[4].animation.finishCallback = (name:String) -> if (name == "intro") stage.getSprite("run_legsdetg").alpha = 1;
             strumLines.members[0].characters[4].playAnim("intro", true);
@@ -546,9 +527,4 @@ function flicker(cam:FlxCamera, d:Float, i:Float) {
         cam.visible = !cam.visible;
         if (lol.loopsLeft == 0) cam.visible = true;
     }, Std.int(d / i));
-}
-
-function toggleChar(_:Character, yes:Bool) {
-    _.alpha = yes ? 1 : 0;
-    _.visible = _.exists = yes;
-}
+    }
